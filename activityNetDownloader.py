@@ -2,9 +2,10 @@ import os
 import json
 from pprint import pprint
 import pafy
+from tqdm import tqdm
 
 # specify download directory
-directory = '/path/to/your/directory/'
+directory = '../data/ActivityNet_200/'
 videoCounter = 0
 
 # open json file
@@ -15,7 +16,7 @@ with open('activity_net.v1-3.min.json') as data_file:
 videos = data['database']
 
 # iterate through dictionary of videos
-for key in videos:
+for key in tqdm(videos):
 	# take video
 	video = videos[key]
 
@@ -33,6 +34,7 @@ for key in videos:
 	label_dir = directory + subset + label
 	if not os.path.exists(label_dir):
 		os.makedirs(label_dir)
+		print('Created directory: ' + label_dir)
 
 	# take url of video
 	url = video['url']
@@ -40,9 +42,11 @@ for key in videos:
 	# start to download
 	try:
 		video = pafy.new(url)
-		best = video.getbest(preftype="flv")
+		best = video.getbest(preftype="mp4")
 		filename = best.download(filepath=label_dir + '/' + key)
-		print 'Downloading... ' + str(videoCounter) + '\n'
+		print('Downloading... ' + str(videoCounter) + '\n')
 		videoCounter += 1
 	except Exception as inst:
-		print 'Error!'
+		print('Error!')
+	
+print('Downloaded ' + str(videoCounter) + ' videos.')
