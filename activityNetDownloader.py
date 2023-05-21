@@ -1,8 +1,9 @@
 import os
 import json
 from pprint import pprint
-import pafy
-from tqdm import tqdm
+# from tqdm import tqdm
+from pytube import YouTube
+
 
 # specify download directory
 directory = '../data/ActivityNet_200/'
@@ -15,8 +16,9 @@ with open('activity_net.v1-3.min.json') as data_file:
 # take only video informations from database object
 videos = data['database']
 
+total_videos = len(videos)
 # iterate through dictionary of videos
-for key in tqdm(videos):
+for id, key in enumerate(videos):
 	# take video
 	video = videos[key]
 
@@ -37,16 +39,25 @@ for key in tqdm(videos):
 		print('Created directory: ' + label_dir)
 
 	# take url of video
-	url = video['url']
-
-	# start to download
+	url = video['url']	
 	try:
-		video = pafy.new(url)
-		best = video.getbest(preftype="mp4")
-		filename = best.download(filepath=label_dir + '/' + key)
-		print('Downloading... ' + str(videoCounter) + '\n')
-		videoCounter += 1
-	except Exception as inst:
-		print('Error!')
-	
+		# Create a YouTube object with the provided URL
+		yt = YouTube(url)
+		
+		# Filter the available video streams to get the highest resolution
+		video = yt.streams.get_highest_resolution()
+		
+		# Download the video to the specified output path, rename the video as the key
+		video.download(label_dir, key+'.mp4')
+		videoCounter += 1		
+		print("{}/{}/{} Video downloaded successfully! {} {}".format(id+1, total_videos, videoCounter, key, url))
+		
+
+	except Exception as e:
+		print("{}/{}/{} Error: {}! {} {}".format(id+1, total_videos, videoCounter, str(e), key, url))
+
+
+	stop
+
+
 print('Downloaded ' + str(videoCounter) + ' videos.')
