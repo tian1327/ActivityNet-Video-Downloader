@@ -56,8 +56,4 @@ for id, key in enumerate(videos):
 	except Exception as e:
 		print("{}/{}/{} Error: {}! {} {}".format(id+1, total_videos, videoCounter, str(e), key, url))
 
-
-	stop
-
-
 print('Downloaded ' + str(videoCounter) + ' videos.')
