@@ -78,9 +78,16 @@ def main():
             for vid in src_list]
         # ['root/class/sub/xxx.mp4']
 
-    print('src_list: ', src_list)
-    print('dest_list: ', dest_list)
-    stop
+    print('src_list:', src_list)
+    print('dest_list:', dest_list)
+    
+    # check the folder path in dest_list, if not exist, create it
+    for dest in dest_list:
+        folder, name = osp.split(dest)
+        if not osp.exists(folder):
+            os.system('mkdir -p {}'.format(folder))
+    
+    #stop
 
     vid_list = list(zip(src_list, dest_list))
     pool = multiprocessing.Pool(n_thread)
