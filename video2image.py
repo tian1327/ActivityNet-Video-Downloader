@@ -148,8 +148,6 @@ def vid2jpg(tup, decode_type, se=None, fps=None, prefix='img_%05d.jpg'):
             subprocess.call(cmd, shell=True,
                             stdout=subprocess.DEVNULL,
                             stderr=subprocess.DEVNULL)
-    
-    stop
 
 
 def main():
@@ -176,8 +174,8 @@ def main():
             for vid in src_list]
         # ['root/class/sub/xxx.mp4']
 
-    print('src_list: ', len(src_list))
-    print('dest_list: ', len(dest_list))
+    print('src_list[0]: ', src_list[0])
+    print('dest_list[0]: ', dest_list[0])
 
     vid_list = list(zip(src_list, dest_list))
 
