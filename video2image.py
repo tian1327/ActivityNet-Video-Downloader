@@ -80,28 +80,32 @@ def vid2jpg(tup, decode_type, se=None, fps=None, prefix='img_%05d.jpg'):
     width, height = int(w), int(h)
 
     if decode_type == 'ffmpeg':
-        if se is None:
-            if fps is None:
-                cmd = 'ffmpeg -i \"{}\"  -threads 1 -q:v 1 \
-                    \"{}/{}\"'.format(src, video_folder, prefix)
-            else:
-                cmd = 'ffmpeg -i \"{}\"  -threads 1 -q:v 1 -r {} \
-                    \"{}/{}\"'.format(src, fps, video_folder, prefix)
-        else:
-            if width > height:
-                if fps is None:
-                    cmd = 'ffmpeg -i \"{}\"  -threads 1 -vf scale=-1:{} -q:v 1 \
-                        \"{}/{}\"'.format(src, se, video_folder, prefix)
-                else:
-                    cmd = 'ffmpeg -i \"{}\"  -threads 1 -vf scale=-1:{} -q:v 1 -r {} \
-                        \"{}/{}\"'.format(src, se, fps, video_folder, prefix)
-            else:
-                if fps is None:
-                    cmd = 'ffmpeg -i \"{}\"  -threads 1 -vf scale={}:-1 -q:v 1 \
-                        \"{}/{}\"'.format(src, se, video_folder, prefix)
-                else:
-                    cmd = 'ffmpeg -i \"{}\"  -threads 1 -vf scale={}:-1 -q:v 1 -r {} \
-                        \"{}/{}\"'.format(src, se, fps, video_folder, prefix)
+        # if se is None:
+        #     if fps is None:
+        #         cmd = 'ffmpeg -i \"{}\"  -threads 1 -q:v 1 \
+        #             \"{}/{}\"'.format(src, video_folder, prefix)
+        #     else:
+        #         cmd = 'ffmpeg -i \"{}\"  -threads 1 -q:v 1 -r {} \
+        #             \"{}/{}\"'.format(src, fps, video_folder, prefix)
+        # else:
+        #     if width > height:
+        #         if fps is None:
+        #             cmd = 'ffmpeg -i \"{}\"  -threads 1 -vf scale=-1:{} -q:v 1 \
+        #                 \"{}/{}\"'.format(src, se, video_folder, prefix)
+        #         else:
+        #             cmd = 'ffmpeg -i \"{}\"  -threads 1 -vf scale=-1:{} -q:v 1 -r {} \
+        #                 \"{}/{}\"'.format(src, se, fps, video_folder, prefix)
+        #     else:
+        #         if fps is None:
+        #             cmd = 'ffmpeg -i \"{}\"  -threads 1 -vf scale={}:-1 -q:v 1 \
+        #                 \"{}/{}\"'.format(src, se, video_folder, prefix)
+        #         else:
+        #             cmd = 'ffmpeg -i \"{}\"  -threads 1 -vf scale={}:-1 -q:v 1 -r {} \
+        #                 \"{}/{}\"'.format(src, se, fps, video_folder, prefix)
+        
+        cmd = 'ffmpeg -i \"{}\"  -threads 1 -vf scale={}:{} -q:v 1 -r {} \
+                        \"{}/{}\"'.format(src, 256, 340, fps, video_folder, prefix)
+
         # print(cmd)
         subprocess.call(cmd, shell=True,
                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -119,7 +123,7 @@ def vid2jpg(tup, decode_type, se=None, fps=None, prefix='img_%05d.jpg'):
                     # else:
                     #     frame = cv2.resize(frame, (se, int(width / se * height)))
                     
-                    frame = cv2.resize(frame, (256, 340)) # resize to 256x340
+                    frame = cv2.resize(frame, (256, 340)) # resize to 256x340, but no implementation of fps
 
                 frame_list.append(frame)
                 ret, frame = cap.read()
