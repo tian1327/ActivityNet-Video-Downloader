@@ -12,6 +12,7 @@ def parse_args():
     parser.add_argument('data_path', type=str,
                         help='root directory for the dataset')
     parser.add_argument('dataset', type=str, choices=[
+                        'activitynet200',
                         'ucf101', 'hmdb51',
                         'kinetics400', 'kinetics600', 'kinetics700',
                         'sthv1', 'sthv2'],
@@ -266,13 +267,17 @@ def main():
     dataset = args.dataset
     ann_path = osp.join(args.ann_root, args.dataset)
     out_path = osp.join(args.out_root, args.dataset)
+    
     if not osp.exists(out_path):
         os.system('mkdir -p {}'.format(out_path))
+
     if 'sth' in dataset:
         gen_sth_label(args.data_path, ann_path, out_path, args.source)
+
     elif 'kinetics' in dataset:
         gen_kinetics_label(args.data_path, ann_path, out_path,
                            args.level, args.source, args.phase)
+
     elif dataset in ['ucf101', 'hmdb51']:
         gen_label(args.data_path, ann_path, out_path,
                   args.source, args.split)
