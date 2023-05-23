@@ -16,4 +16,4 @@ This simple script is for downloading videos of ActivityNet dataset by parsing U
    * extract raw frames
    * prepare annotations
 
-
+This repo is prepared based on the instructions given in [Data Process](https://github.com/whwu95/MVFNet/blob/main/data_process/DATASETS.md) and [Text4Video](https://github.com/whwu95/Text4Vis/tree/main).
