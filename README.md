@@ -12,7 +12,8 @@ This simple script is for downloading videos of ActivityNet dataset by parsing U
 2. Run `prepare_data.ipynb` to:
    * check downloaded videos
    * sample videos 
-   * resize videos to 256
+   * resize videos to 256 (not used if slicing frames)
    * extract raw frames
    * prepare annotations
-   * 
+
+
